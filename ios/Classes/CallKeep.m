@@ -251,8 +251,8 @@ static NSObject<CallKeepPushDelegate>* _delegate;
     // BOOL hasVideo = [dic[@"has_video"] boolValue];
     // NSString *callerIdType = dic[@"caller_id_type"];
 
-    NSString *fromNumber = dic.dictionaryPayload[@"from_number"];
-    NSString *toNumber = dic.dictionaryPayload[@"to_number"];
+    NSString *fromNumber = dic[@"from_number"];
+    NSString *toNumber = dic[@"to_number"];
     NSString *uuid = [[NSUUID UUID] UUIDString];
     
     if( uuid == nil) {
