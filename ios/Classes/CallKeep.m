@@ -220,7 +220,7 @@ static NSObject<CallKeepPushDelegate>* _delegate;
 
 - (void)pushRegistry:(PKPushRegistry *)registry didReceiveIncomingPushWithPayload:(PKPushPayload *)payload forType:(PKPushType)type withCompletionHandler:(nonnull void (^)(void))completion {
     // Process the received push
-    NSLog(@"pushRegistry");
+    NSLog(@"pushRegistry: %@", payload.dictionaryPayload);
 
     NSDictionary *dic = payload.dictionaryPayload;
     
