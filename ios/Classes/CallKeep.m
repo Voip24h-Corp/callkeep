@@ -220,30 +220,21 @@ static NSObject<CallKeepPushDelegate>* _delegate;
 
 - (void)pushRegistry:(PKPushRegistry *)registry didReceiveIncomingPushWithPayload:(PKPushPayload *)payload forType:(PKPushType)type withCompletionHandler:(nonnull void (^)(void))completion {
     // Process the received push
-    NSLog(@"didReceiveIncomingPushWithPayload payload = %@", payload.type);
-    /* payload example.
-     {
-     "uuid": "xxxxx-xxxxx-xxxxx-xxxxx",
-     "caller_id": "+8618612345678",
-     "caller_name": "hello",
-     "caller_id_type": "number",
-     "has_video": false,
-     }
-     */
-    
+    NSLog(@"pushRegistry");
+
     NSDictionary *dic = payload.dictionaryPayload;
     
-    if (_delegate) {
-        dic = [_delegate mapPushPayload:dic];
-    }
+    // if (_delegate) {
+    //     dic = [_delegate mapPushPayload:dic];
+    // }
     
-    if (!dic || dic[@"aps"] != nil) {
-        NSLog(@"Do not use the 'alert' format for push type %@.", payload.type);
-        if(completion != nil) {
-            completion();
-        }
-        return;
-    }
+    // if (!dic || dic[@"aps"] != nil) {
+    //     NSLog(@"Do not use the 'alert' format for push type %@.", payload.type);
+    //     if(completion != nil) {
+    //         completion();
+    //     }
+    //     return;
+    // }
     
     // NSString *uuid = dic[@"uuid"];
     // NSString *callerId = dic[@"caller_id"];
@@ -254,17 +245,11 @@ static NSObject<CallKeepPushDelegate>* _delegate;
     NSString *fromNumber = dic[@"from_number"];
     NSString *toNumber = dic[@"to_number"];
     NSString *uuid = [[NSUUID UUID] UUIDString];
-    
-    if( uuid == nil) {
-        uuid = [self createUUID];
-    }
 
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     [dict setObject:[uuid lowercaseString] forKey:@"uuid"];
     [dict setObject:fromNumber forKey:@"from_number"];
     [dict setObject:toNumber forKey:@"to_number"];
-    
-    NSLog(@"Got here %@.", [dic description]);
     
     [CallKeep reportNewIncomingCall:uuid
                              handle:@"push_notification"
