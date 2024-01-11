@@ -245,27 +245,37 @@ static NSObject<CallKeepPushDelegate>* _delegate;
         return;
     }
     
-    NSString *uuid = dic[@"uuid"];
-    NSString *callerId = dic[@"caller_id"];
-    NSString *callerName = dic[@"caller_name"];
-    BOOL hasVideo = [dic[@"has_video"] boolValue];
-    NSString *callerIdType = dic[@"caller_id_type"];
-    
+    // NSString *uuid = dic[@"uuid"];
+    // NSString *callerId = dic[@"caller_id"];
+    // NSString *callerName = dic[@"caller_name"];
+    // BOOL hasVideo = [dic[@"has_video"] boolValue];
+    // NSString *callerIdType = dic[@"caller_id_type"];
+
+    NSString *fromNumber = dic.dictionaryPayload[@"from_number"];
+    NSString *toNumber = dic.dictionaryPayload[@"to_number"];
+    NSString *uuid = [[NSUUID UUID] UUIDString];
     
     if( uuid == nil) {
         uuid = [self createUUID];
     }
+
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    [dict setObject:[uuid lowercaseString] forKey:@"uuid"];
+    [dict setObject:fromNumber forKey:@"from_number"];
+    [dict setObject:toNumber forKey:@"to_number"];
     
     NSLog(@"Got here %@.", [dic description]);
     
     [CallKeep reportNewIncomingCall:uuid
-                             handle:callerId
-                         handleType:callerIdType
-                           hasVideo:hasVideo
-                         callerName:callerName
+                             handle:uuid
+                         handleType:"inbound"
+                           hasVideo:NO
+                         callerName:fromNumber
                         fromPushKit:YES
                             payload:dic
               withCompletionHandler:completion];
+    
+    [self sendEventWithNameWrapper:CallKeepReceivedPushNotification body:dict];
 }
 
 - (void)pushRegistry:(PKPushRegistry *)registry didReceiveIncomingPushWithPayload:(PKPushPayload *)payload forType:(NSString *)type {

@@ -109,3 +109,14 @@ class CallKeepPushKitToken extends EventType {
       : token = arguments['token'];
   final String? token;
 }
+
+class CallKeepReceivedPushNotification extends EventType {
+  CallKeepReceivedPushNotification();
+  CallKeepReceivedPushNotification.fromMap(Map<dynamic, dynamic> arguments)
+      : callId = arguments['uuid'] as String,
+        fromNumber = arguments['from_number'] as String,
+        toNumber = arguments['to_number'] as String;
+  String? callId;
+  String? fromNumber;
+  String? toNumber;
+}
