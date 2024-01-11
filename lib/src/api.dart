@@ -509,7 +509,7 @@ class FlutterCallkeep extends EventManager {
         emit(CallKeepPushKitToken.fromMap(data));
         break;
       case 'CallKeepReceivedPushNotification':
-        emit(CallKeepReceivedPushNotification.from(data));
+        emit(CallKeepReceivedPushNotification.fromMap(data));
         break;
     }
   }

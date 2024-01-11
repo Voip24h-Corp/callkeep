@@ -267,8 +267,8 @@ static NSObject<CallKeepPushDelegate>* _delegate;
     NSLog(@"Got here %@.", [dic description]);
     
     [CallKeep reportNewIncomingCall:uuid
-                             handle:uuid
-                         handleType:"inbound"
+                             handle:@"push_notification"
+                         handleType:@"generic"
                            hasVideo:NO
                          callerName:fromNumber
                         fromPushKit:YES
